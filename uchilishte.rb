@@ -13,7 +13,7 @@ class Uchitel
   end
 
   def draw
-    @img.draw_rot(@x, @y, Zlay::UCHITELI, 0)
+    @img.draw_rot(@x, @y, Zlay::UCHITELI, 90)
   end
 
 end
@@ -26,9 +26,11 @@ class Duska
     @y = y
 
     @drawable = false
+    @uch_img = Gosu::Image.new("na_haka_snimki/chovek_prostitutka.png")
   end
 
   def draw
-    Gosu.draw_rect(@x, @y, 427, 400, Gosu::Color.argb(0xaf_000000), Zlay::DUSKA)
+    Gosu.draw_rect(@x, @y, 550, 400, Gosu::Color.argb(0xaf_000000), Zlay::DUSKA)
+    @uch_img.draw(@x + 10, @y + 10, Zlay::ICONS)
   end
 end
