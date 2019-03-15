@@ -12,6 +12,8 @@ class Btn
   end
 end
 
+
+
 class Tutorial < Gosu::Window
   def initialize
     super 640, 480

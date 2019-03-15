@@ -10,6 +10,7 @@ module Zlay
   UCHITELI = 2
   PLAYER = 3
   DUSKA = 5
+  ICONS = 6
   CURSOR = 10
 end
 
@@ -43,12 +44,9 @@ class TheGame < Gosu::Window
 
     @igrach = Player.new(self.width/2, self.height/2)
 
-    @zhana = Uchitel.new(-900, -900, "na_haka_snimki/janet.png")
-    @duska_zhana = Duska.new(200, 30)
+    @uchka = Uchitel.new(-900, -900, "na_haka_snimki/janet.png")
+    @duska_uchka = Duska.new(45, 30)
 
-    @upper_rect = Chin.new()
-    @middle_rect = Chin.new()
-    @lower_rect = Chin.new()
 
   end
 
@@ -142,8 +140,8 @@ class TheGame < Gosu::Window
     end
 
 
-    @bg_counter == 1 ? @zhana.goto(100, 130) : @zhana.goto(-900, -900)
-    Gosu.distance(@igrach.x, @igrach.y, @zhana.x, @zhana.y) < 75 ? @duska_zhana.drawable = true : @duska_zhana.drawable = false
+    @bg_counter == 3 ? @uchka.goto(500, 130) : @uchka.goto(-900, -900)
+    Gosu.distance(@igrach.x, @igrach.y, @uchka.x, @uchka.y) < 75 ? @duska_uchka.drawable = true : @duska_uchka.drawable = false
 
 end
 
@@ -153,8 +151,8 @@ end
     @walls.each{|wall| wall.draw}
     @igrach.draw
 
-    @zhana.draw
-    @duska_zhana.draw if @duska_zhana.drawable
+    @uchka.draw
+    @duska_uchka.draw if @duska_uchka.drawable
   end
 
 end
