@@ -29,6 +29,6 @@ class Duska
   end
 
   def draw
-    Gosu.draw_rect(@x, @y, 550, 400, Gosu::Color.argb(0xaf_000000), Zlay::DUSKA)
+    Gosu.draw_rect(@x, @y, 427, 400, Gosu::Color.argb(0xaf_000000), Zlay::DUSKA)
   end
 end
