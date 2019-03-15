@@ -12,19 +12,19 @@ class Player
   end
 
   def go_up
-    @y -= 3
+    @y -= 8
   end
 
   def go_down
-    @y += 3
+    @y += 8
   end
 
   def go_left
-    @x -= 3
+    @x -= 8
   end
 
   def go_right
-    @x += 3
+    @x += 8
   end
 
   def draw
