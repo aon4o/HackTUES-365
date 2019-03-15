@@ -47,7 +47,7 @@ class TheGame < Gosu::Window
 
     @igrach = Player.new(self.width/2, self.height/2)
 
-    @zhana = Uchitel.new(100, 200, "na_haka_snimki/janet.png")
+    @zhana = Uchitel.new(-900, -900, "na_haka_snimki/janet.png")
 
   end
 
@@ -83,6 +83,7 @@ class TheGame < Gosu::Window
         @bg_counter -= 1
         @igrach.x = self.width - 30
       end
+
     when 1
       @background = Gosu::Image.new("na_haka_snimki/red_back.png")
 
@@ -106,6 +107,13 @@ class TheGame < Gosu::Window
 
       @igrach.x = self.width - 30 if @igrach.x > self.width - 30
     end
+
+
+
+
+    @bg_counter == 1 ? @zhana.goto(200, 200) : @zhana.goto(-900, -900)
+    puts "close to JANET" if Gosu.distance(@igrach.x, @igrach.y, @zhana.x, @zhana.y) < 75
+
 end
 
   def draw
