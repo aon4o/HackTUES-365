@@ -1,13 +1,14 @@
 require 'gosu'
 
 class Btn
+  attr_reader :x, :y
   def initialize (x, y)
     @x = x
     @y = y
     @img = Gosu::Image.new("na_haka_snimki/Blue.jpg")
   end
   def draw
-    @img.draw(@x, @y, 20, 1, 1)
+    @img.draw(@x, @y, 5, 1)
   end
 end
 
@@ -21,14 +22,20 @@ class Tutorial < Gosu::Window
     @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     @dyska = Gosu::Image.new("na_haka_snimki/dyska.png")
     @btns_back = Gosu::Image.new("na_haka_snimki/btns_back.png")
-    @a = Gosu::Image.new("na_haka_snimki/Blue.jpg")
-    @b = Gosu::Image.new("na_haka_snimki/Blue.jpg")
-    @c = Gosu::Image.new("na_haka_snimki/Blue.jpg")
+    @opt_a = Btn.new(220,390)
+    @opt_b = Btn.new(320,390)
+    @opt_c = Btn.new(420,390)
   end
 
   def update
-    if (Gosu.distance(265, 405, mouse_x, mouse_y)&& button_down?(Gosu::MsLeft))
-      puts("you cklicked")
+    if (Gosu.distance(@opt_a.x, @opt_a.y, mouse_x, mouse_y) < 15 && button_down?(Gosu::MsLeft))
+      puts("you cklicked opt a")
+    end
+    if (Gosu.distance(@opt_b.x, @opt_b.y, mouse_x, mouse_y) < 15 && button_down?(Gosu::MsLeft))
+      puts("you cklicked opt b")
+    end
+    if (Gosu.distance(@opt_c.x, @opt_c.y, mouse_x, mouse_y) < 15 && button_down?(Gosu::MsLeft))
+      puts("you cklicked opt c")
     end
   end
 
@@ -42,9 +49,9 @@ class Tutorial < Gosu::Window
     @font.draw("c)", 210, 170, 5, 2, 2, Gosu::Color::BLACK)
     @dyska.draw(200,20,3, 0.7, 0.7)
     @btns_back.draw(200,370,3, 1.2, 1.7)
-    @a.draw(250,390,4)
-    @b.draw(350,390,4)
-    @c.draw(450,390,4)
+    @opt_a.draw
+    @opt_b.draw
+    @opt_c.draw
   end
 end
 
