@@ -42,13 +42,15 @@ class TheGame < Gosu::Window
     @igrach = Player.new(self.width/2, self.height/2)
 
     @zhana = Uchitel.new(900, 900, "na_haka_snimki/janet.png")
-    @duska_zhana = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
+    @duska_zhana = Duska.new(45, 30, "na_haka_snimki/abramovich_small.png")
 
-    @kurshakova = Uchitel.new(900, 900, "na_haka_snimki/perunika.png")
-    @duska_kurshakova = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
+    @mitova = Uchitel.new(900, 900, "na_haka_snimki/perunika.png")
+    @duska_mitova = Duska.new(45, 30, "na_haka_snimki/mitova_small.png")
 
+=begin
     @milko = Uchitel.new(900, 900, "na_haka_snimki/milko.png")
-    @duska_milko = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
+    @duska_milko = Duska.new(45, 30, "na_haka_snimki/abramovich_small.png")
+=end
 
     @door_top = Door.new(500, 0)
     @door1 = true
@@ -194,7 +196,7 @@ class TheGame < Gosu::Window
       @igrach.y = 40 if @igrach.y < 40
       if @igrach.y > self.height-30
         if Gosu.distance(@igrach.x, @igrach.y, 500, self.height) < 40
-          @bg_counter = 1
+          @bg_counter = 0
           @igrach.y = 30
         else
           @igrach.y = self.height - 30
@@ -222,13 +224,9 @@ class TheGame < Gosu::Window
     Gosu.distance(@igrach.x, @igrach.y, @zhana.x, @zhana.y) < 75 ? @duska_zhana.drawable = true : @duska_zhana.drawable = false
     @duska_zhana.predmet = 0
 
-    @bg_counter == 4 ? @kurshakova.goto(500, 130) : @kurshakova.goto(900, 900)
-    Gosu.distance(@igrach.x, @igrach.y, @kurshakova.x, @kurshakova.y) < 75 ? @duska_kurshakova.drawable = true : @duska_kurshakova.drawable = false
-    @duska_kurshakova.predmet = 1
-
-    @bg_counter == 5 ? @milko.goto(500, 130) : @milko.goto(900, 900)
-    Gosu.distance(@igrach.x, @igrach.y, @milko.x, @milko.y) < 75 ? @duska_milko.drawable = true : @duska_milko.drawable = false
-    @duska_milko.predmet = 2
+    @bg_counter == 4 ? @mitova.goto(500, 130) : @mitova.goto(900, 900)
+    Gosu.distance(@igrach.x, @igrach.y, @mitova.x, @mitova.y) < 75 ? @duska_mitova.drawable = true : @duska_mitova.drawable = false
+    @duska_mitova.predmet = 1
 
     if @duska_zhana.drawable && button_down?(Gosu::MsLeft)
       if Gosu.distance(@duska_zhana.option_a.x, @duska_zhana.option_a.y, self.mouse_x, self.mouse_y) < 30
@@ -243,31 +241,19 @@ class TheGame < Gosu::Window
       end
     end
 
-
-    if @duska_kurshakova.drawable && button_down?(Gosu::MsLeft)
-      if Gosu.distance(@duska_kurshakova.option_a.x, @duska_kurshakova.option_a.y, self.mouse_x, self.mouse_y) < 30
+    if @duska_mitova.drawable && button_down?(Gosu::MsLeft)
+      if Gosu.distance(@duska_mitova.option_a.x, @duska_mitova.option_a.y, self.mouse_x, self.mouse_y) < 30
         puts "FALSE"
       end
-      if Gosu.distance(@duska_kurshakova.option_b.x, @duska_kurshakova.option_b.y, self.mouse_x, self.mouse_y) < 30
+      if Gosu.distance(@duska_mitova.option_b.x, @duska_mitova.option_b.y, self.mouse_x, self.mouse_y) < 30
         puts "TRUE"
         @door3 = true
       end
-      if Gosu.distance(@duska_kurshakova.option_c.x, @duska_kurshakova.option_c.y, self.mouse_x, self.mouse_y) < 30
+      if Gosu.distance(@duska_mitova.option_c.x, @duska_mitova.option_c.y, self.mouse_x, self.mouse_y) < 30
         puts "FALSE"
       end
     end
 
-    if @duska_milko.drawable && button_down?(Gosu::MsLeft)
-      if Gosu.distance(@duska_milko.option_a.x, @duska_milko.option_a.y, self.mouse_x, self.mouse_y) < 30
-        puts "TRUE"
-      end
-      if Gosu.distance(@duska_milko.option_b.x, @duska_milko.option_b.y, self.mouse_x, self.mouse_y) < 30
-        puts "TRUE"
-      end
-      if Gosu.distance(@duska_milko.option_c.x, @duska_milko.option_c.y, self.mouse_x, self.mouse_y) < 30
-        puts "FALSE"
-      end
-    end
 
 
 end
@@ -289,12 +275,13 @@ end
     @zhana.draw
     @duska_zhana.draw if @duska_zhana.drawable
 
-    @kurshakova.draw
-    @duska_kurshakova.draw if @duska_kurshakova.drawable
+    @mitova.draw
+    @duska_mitova.draw if @duska_mitova.drawable
 
+=begin
     @milko.draw
     @duska_milko.draw if @duska_milko.drawable
-
+=end
     @door_top.draw if @bg_counter != 2 && @bg_counter != -2 && @bg_counter != 3 && @bg_counter != 4 && @bg_counter != 5
 
   end
