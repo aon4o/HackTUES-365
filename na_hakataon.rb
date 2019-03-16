@@ -2,6 +2,7 @@ require 'gosu'
 load 'wall.rb'
 load 'player.rb'
 load 'uchilishte.rb'
+load 'questionss.rb'
 
 
 module Zlay
@@ -12,6 +13,8 @@ module Zlay
   DOOR = 4
   DUSKA = 5
   ICONS = 6
+  WHITEBOARD = 7
+  TEXT = 8
   CURSOR = 10
 end
 
@@ -34,6 +37,7 @@ class TheGame < Gosu::Window
     @igrach = Player.new(self.width/2, self.height/2)
 
     @zhana = Uchitel.new(900, 900, "na_haka_snimki/janet.png")
+
     @duska_zhana = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
 
     @kurshakova = Uchitel.new(900, 900, "na_haka_snimki/perunika.png")
@@ -48,12 +52,25 @@ class TheGame < Gosu::Window
 
 
   def update
-    @igrach.go_left if Gosu.button_down? Gosu::KB_A
-    @igrach.go_right if Gosu.button_down? Gosu::KB_D
-    @igrach.go_down if Gosu.button_down? Gosu::KB_S
-    @igrach.go_up if Gosu.button_down? Gosu::KB_W
+    if Gosu.button_down? Gosu::KB_W
+      @igrach.go_up
+    end
 
+    if Gosu.button_down? Gosu::KB_A
+      @igrach.go_left
+    end
 
+    if Gosu.button_down? Gosu::KB_S
+      @igrach.go_down
+    end
+
+    if Gosu.button_down? Gosu::KB_D
+      @igrach.go_right
+    end
+
+    unless (Gosu.button_down? Gosu::KB_W) || (Gosu.button_down? Gosu::KB_A) || (Gosu.button_down? Gosu::KB_S) || (Gosu.button_down? Gosu::KB_D)
+      @igrach.still
+    end
 
     @igrach.y = self.height - 30 if @igrach.y > self.height - 30 && @bg_counter != 3 && @bg_counter != 4 && @bg_counter != 5
 
@@ -92,7 +109,7 @@ class TheGame < Gosu::Window
       end
 
     when 0 # =================================
-      @background = Gosu::Image.new("na_haka_snimki/grey_back.png")
+      @background = Gosu::Image.new("na_haka_snimki/koridorsdivan.png")
 
       if @igrach.x > self.width
         @bg_counter = 1
@@ -114,7 +131,7 @@ class TheGame < Gosu::Window
       end
 
     when 1 # =================================
-      @background = Gosu::Image.new("na_haka_snimki/red_back.png")
+      @background = Gosu::Image.new("na_haka_snimki/koridor.png")
 
       if @igrach.y < 30
         if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40
@@ -136,7 +153,7 @@ class TheGame < Gosu::Window
       end
 
     when 2 # =================================
-      @background = Gosu::Image.new("na_haka_snimki/black_back.png")
+      @background = Gosu::Image.new("na_haka_snimki/radiatori.png")
 
       @igrach.y = 30 if @igrach.y < 30
 
@@ -153,32 +170,43 @@ class TheGame < Gosu::Window
 
       @igrach.y = 40 if @igrach.y < 40
       if @igrach.y > self.height-30
-        @bg_counter = 1
-        @igrach.y = 30
+        if Gosu.distance(@igrach.x, @igrach.y, 500, self.height) < 40
+          @bg_counter = 1
+          @igrach.y = 30
+        else
+          @igrach.y = self.height - 30
+        end
       end
 
     when 4 # =================================
       @background = Gosu::Image.new("na_haka_snimki/staq.png")
       @igrach.x = 50 if @igrach.x < 50
       @igrach.x = self.width - 50 if @igrach.x > self.width - 50
-      @igrach.y = 40 if @igrach.y < 40
 
+      @igrach.y = 40 if @igrach.y < 40
       if @igrach.y > self.height-30
-        @bg_counter = 0
-        @igrach.y = 30
+        if Gosu.distance(@igrach.x, @igrach.y, 500, self.height) < 40
+          @bg_counter = 1
+          @igrach.y = 30
+        else
+          @igrach.y = self.height - 30
+        end
       end
 
     when 5 # =================================
       @background = Gosu::Image.new("na_haka_snimki/staq.png")
       @igrach.x = 50 if @igrach.x < 50
       @igrach.x = self.width - 50 if @igrach.x > self.width - 50
+
       @igrach.y = 40 if @igrach.y < 40
-
       if @igrach.y > self.height-30
-        @bg_counter = -1
-        @igrach.y = 30
+        if Gosu.distance(@igrach.x, @igrach.y, 500, self.height) < 40
+          @bg_counter = 1
+          @igrach.y = 30
+        else
+          @igrach.y = self.height - 30
+        end
       end
-
     end
 
 
