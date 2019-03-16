@@ -14,18 +14,6 @@ module Zlay
   CURSOR = 10
 end
 
-class Chin
-  def initialize(x, y, w, h)
-    @x = x
-    @y = y
-    @width = w
-    @height = h
-  end
-
-  def draw
-    Gosu.draw_rect(@x, @y, @width, @height, Zlay::Uchiteli, Gosu::Color(0xff_ff00ff))
-  end
-end
 
 
 
@@ -44,9 +32,14 @@ class TheGame < Gosu::Window
 
     @igrach = Player.new(self.width/2, self.height/2)
 
-    @uchka = Uchitel.new(-900, -900, "na_haka_snimki/janet.png")
-    @duska_uchka = Duska.new(45, 30)
+    @zhana = Uchitel.new(900, 900, "na_haka_snimki/janet.png")
+    @duska_zhana = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
 
+    @kurshakova = Uchitel.new(900, 900, "na_haka_snimki/perunika.png")
+    @duska_kurshakova = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
+
+    @milko = Uchitel.new(900, 900, "na_haka_snimki/milko.png")
+    @duska_milko = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
 
   end
 
@@ -126,7 +119,7 @@ class TheGame < Gosu::Window
 
       @igrach.x = self.width - 30 if @igrach.x > self.width - 30
 
-    when (3..5) # =================================
+    when 3 # =================================
       @background = Gosu::Image.new("na_haka_snimki/staq.png")
       @igrach.x = 50 if @igrach.x < 50
       @igrach.x = self.width - 50 if @igrach.x > self.width - 50
@@ -137,11 +130,77 @@ class TheGame < Gosu::Window
         @igrach.y = 30
       end
 
+    when 4 # =================================
+      @background = Gosu::Image.new("na_haka_snimki/staq.png")
+      @igrach.x = 50 if @igrach.x < 50
+      @igrach.x = self.width - 50 if @igrach.x > self.width - 50
+      @igrach.y = 40 if @igrach.y < 40
+
+      if @igrach.y > self.height-30
+        @bg_counter = 0
+        @igrach.y = 30
+      end
+
+    when 5 # =================================
+      @background = Gosu::Image.new("na_haka_snimki/staq.png")
+      @igrach.x = 50 if @igrach.x < 50
+      @igrach.x = self.width - 50 if @igrach.x > self.width - 50
+      @igrach.y = 40 if @igrach.y < 40
+
+      if @igrach.y > self.height-30
+        @bg_counter = -1
+        @igrach.y = 30
+      end
+
     end
 
 
-    @bg_counter == 3 ? @uchka.goto(500, 130) : @uchka.goto(-900, -900)
-    Gosu.distance(@igrach.x, @igrach.y, @uchka.x, @uchka.y) < 75 ? @duska_uchka.drawable = true : @duska_uchka.drawable = false
+    @bg_counter == 3 ? @zhana.goto(500, 130) : @zhana.goto(900, 900)
+    Gosu.distance(@igrach.x, @igrach.y, @zhana.x, @zhana.y) < 75 ? @duska_zhana.drawable = true : @duska_zhana.drawable = false
+
+    @bg_counter == 4 ? @kurshakova.goto(500, 130) : @kurshakova.goto(900, 900)
+    Gosu.distance(@igrach.x, @igrach.y, @kurshakova.x, @kurshakova.y) < 75 ? @duska_kurshakova.drawable = true : @duska_kurshakova.drawable = false
+
+    @bg_counter == 5 ? @milko.goto(500, 130) : @milko.goto(900, 900)
+    Gosu.distance(@igrach.x, @igrach.y, @milko.x, @milko.y) < 75 ? @duska_milko.drawable = true : @duska_milko.drawable = false
+
+    if @duska_zhana.drawable && button_down?(Gosu::MsLeft)
+      if Gosu.distance(@duska_zhana.option_a.x, @duska_zhana.option_a.y, self.mouse_x, self.mouse_y) < 30
+        puts "FALSE"
+      end
+      if Gosu.distance(@duska_zhana.option_b.x, @duska_zhana.option_b.y, self.mouse_x, self.mouse_y) < 30
+        puts "FALSE"
+      end
+      if Gosu.distance(@duska_zhana.option_c.x, @duska_zhana.option_c.y, self.mouse_x, self.mouse_y) < 30
+        puts "TRUE"
+      end
+    end
+
+
+    if @duska_kurshakova.drawable && button_down?(Gosu::MsLeft)
+      if Gosu.distance(@duska_kurshakova.option_a.x, @duska_kurshakova.option_a.y, self.mouse_x, self.mouse_y) < 30
+        puts "FALSE"
+      end
+      if Gosu.distance(@duska_kurshakova.option_b.x, @duska_kurshakova.option_b.y, self.mouse_x, self.mouse_y) < 30
+        puts "TRUE"
+      end
+      if Gosu.distance(@duska_kurshakova.option_c.x, @duska_kurshakova.option_c.y, self.mouse_x, self.mouse_y) < 30
+        puts "FALSE"
+      end
+    end
+
+    if @duska_milko.drawable && button_down?(Gosu::MsLeft)
+      if Gosu.distance(@duska_milko.option_a.x, @duska_milko.option_a.y, self.mouse_x, self.mouse_y) < 30
+        puts "TRUE"
+      end
+      if Gosu.distance(@duska_milko.option_b.x, @duska_milko.option_b.y, self.mouse_x, self.mouse_y) < 30
+        puts "TRUE"
+      end
+      if Gosu.distance(@duska_milko.option_c.x, @duska_milko.option_c.y, self.mouse_x, self.mouse_y) < 30
+        puts "FALSE"
+      end
+    end
+
 
 end
 
@@ -151,8 +210,14 @@ end
     @walls.each{|wall| wall.draw}
     @igrach.draw
 
-    @uchka.draw
-    @duska_uchka.draw if @duska_uchka.drawable
+    @zhana.draw
+    @duska_zhana.draw if @duska_zhana.drawable
+
+    @kurshakova.draw
+    @duska_kurshakova.draw if @duska_kurshakova.drawable
+
+    @milko.draw
+    @duska_milko.draw if @duska_milko.drawable
   end
 
 end
