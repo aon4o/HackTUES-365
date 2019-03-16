@@ -97,7 +97,7 @@ class TheGame < Gosu::Window
       @igrach.y = 30 if @igrach.y < 30
       @igrach.x = 30 if @igrach.x < 30
     when -1 # =================================
-      @background = Gosu::Image.new("na_haka_snimki/yellow_back.png")
+      @background = Gosu::Image.new("na_haka_snimki/koridor.png")
 
       if @igrach.x > self.width - 30
         @bg_counter = 0
