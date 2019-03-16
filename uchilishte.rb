@@ -43,12 +43,12 @@ class Btn
 end
 
 class Duska
-  attr_accessor :drawable, :option_a, :option_b, :option_c, :predmet
+  attr_accessor :drawable, :option_a, :option_b, :option_c, :predmet, :x, :y
   def initialize(x, y, image)
     @x = x
     @y = y
 
-    @x_duska = x + 230
+    @x_duska = x + 245
     @y_duska = y + 10
 
     @drawable = false
@@ -61,7 +61,7 @@ class Duska
     @option_c = Btn.new(@x + 450, @y + 350, "В)")
 
     @predmet
-    @q_idx = 0
+    @q_idx = rand(0..2)
 
   end
 
