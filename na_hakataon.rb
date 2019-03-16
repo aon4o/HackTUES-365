@@ -42,7 +42,7 @@ class TheGame < Gosu::Window
     @milko = Uchitel.new(900, 900, "na_haka_snimki/milko.png")
     @duska_milko = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
 
-    @door_top = Door.new(400, 0)
+    @door_top = Door.new(500, 0)
 
   end
 
@@ -77,9 +77,13 @@ class TheGame < Gosu::Window
         @igrach.x = 30
       end
 
-      if @igrach.y < 0
-        @bg_counter = 5
-        @igrach.y = self.height - 50
+      if @igrach.y < 30
+        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40
+          @bg_counter = 3
+          @igrach.y = self.height - 30
+        else
+          @igrach.y = 30
+        end
       end
 
       if @igrach.x < 0
@@ -100,17 +104,25 @@ class TheGame < Gosu::Window
         @igrach.x = self.width - 30
       end
 
-      if @igrach.y < 0
-        @bg_counter = 4
-        @igrach.y = self.height - 40
+      if @igrach.y < 30
+        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40
+          @bg_counter = 4
+          @igrach.y = self.height - 30
+        else
+          @igrach.y = 30
+        end
       end
 
     when 1 # =================================
       @background = Gosu::Image.new("na_haka_snimki/red_back.png")
 
       if @igrach.y < 30
-        @bg_counter = 3
-        @igrach.y = self.height - 30
+        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40
+          @bg_counter = 3
+          @igrach.y = self.height - 30
+        else
+          @igrach.y = 30
+        end
       end
 
       if @igrach.x < 0
@@ -223,13 +235,13 @@ end
     @background.draw(0, 0, Zlay::BACKGROUND)
     @cursor.draw(self.mouse_x, self.mouse_y, Zlay::CURSOR)
     @walls.each do |wall|
-        @walls[1].draw
-        @walls[3].draw
-        if @bg_counter == -2
-          @walls[0].draw
-        elsif @bg_counter == 2
-          @walls[2].draw
-        end
+      @walls[1].draw
+      @walls[3].draw
+      if @bg_counter == -2
+        @walls[0].draw
+      elsif @bg_counter == 2
+        @walls[2].draw
+      end
     end
     @igrach.draw
 
