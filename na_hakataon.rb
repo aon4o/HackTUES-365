@@ -1,3 +1,6 @@
+
+# 215 - 225 MNOGO VAJNI REDOVE ZA TEMITE NA VAPROSITE V STAITE
+
 require 'gosu'
 load 'wall.rb'
 load 'player.rb'
@@ -37,7 +40,6 @@ class TheGame < Gosu::Window
     @igrach = Player.new(self.width/2, self.height/2)
 
     @zhana = Uchitel.new(900, 900, "na_haka_snimki/janet.png")
-
     @duska_zhana = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
 
     @kurshakova = Uchitel.new(900, 900, "na_haka_snimki/perunika.png")
@@ -212,12 +214,15 @@ class TheGame < Gosu::Window
 
     @bg_counter == 3 ? @zhana.goto(500, 130) : @zhana.goto(900, 900)
     Gosu.distance(@igrach.x, @igrach.y, @zhana.x, @zhana.y) < 75 ? @duska_zhana.drawable = true : @duska_zhana.drawable = false
+    @duska_zhana.predmet = 0
 
     @bg_counter == 4 ? @kurshakova.goto(500, 130) : @kurshakova.goto(900, 900)
     Gosu.distance(@igrach.x, @igrach.y, @kurshakova.x, @kurshakova.y) < 75 ? @duska_kurshakova.drawable = true : @duska_kurshakova.drawable = false
+    @duska_kurshakova.predmet = 1
 
     @bg_counter == 5 ? @milko.goto(500, 130) : @milko.goto(900, 900)
     Gosu.distance(@igrach.x, @igrach.y, @milko.x, @milko.y) < 75 ? @duska_milko.drawable = true : @duska_milko.drawable = false
+    @duska_milko.predmet = 2
 
     if @duska_zhana.drawable && button_down?(Gosu::MsLeft)
       if Gosu.distance(@duska_zhana.option_a.x, @duska_zhana.option_a.y, self.mouse_x, self.mouse_y) < 30

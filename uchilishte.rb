@@ -1,3 +1,5 @@
+load 'questionss.rb'
+
 class Uchitel
   attr_accessor :x, :y
   def initialize(x, y, image)
@@ -41,7 +43,7 @@ class Btn
 end
 
 class Duska
-  attr_accessor :drawable, :option_a, :option_b, :option_c
+  attr_accessor :drawable, :option_a, :option_b, :option_c, :predmet
   def initialize(x, y, image)
     @x = x
     @y = y
@@ -52,13 +54,17 @@ class Duska
     @drawable = false
     @uch_img = Gosu::Image.new(image)
 
-    @font = Gosu::Font.new(15)
+    @font = Gosu::Font.new(24)
 
     @option_a = Btn.new(@x + 310, @y + 350, "A)")
-    @option_b = Btn.new(@x + 380, @y + 350, "B)")
-    @option_c = Btn.new(@x + 450, @y + 350, "C)")
+    @option_b = Btn.new(@x + 380, @y + 350, "Б)")
+    @option_c = Btn.new(@x + 450, @y + 350, "В)")
+
+    @predmet
+    @q_idx = 0
 
   end
+
 
   def goto(x, y)
     @x = x
@@ -74,7 +80,13 @@ class Duska
     @option_b.draw
     @option_c.draw
 
-    @font.draw_text("Kolko texet eho go go pet pet?", @x_duska, @y_duska, Zlay::TEXT, scale_x = 1, scale_y = 1, color = 0xff_000000, mode = :default)
+
+    @font.draw_text($questions[@predmet][@q_idx][0], @x_duska, @y_duska, Zlay::TEXT, scale_x = 1, scale_y = 1, color = 0xff_000000, mode = :default)
+    @font.draw_text($questions[@predmet][@q_idx][1], @x_duska, @y_duska + 100, Zlay::TEXT, scale_x = 1, scale_y = 1, color = 0xff_000000, mode = :default)
+    @font.draw_text($questions[@predmet][@q_idx][2], @x_duska, @y_duska + 130, Zlay::TEXT, scale_x = 1, scale_y = 1, color = 0xff_000000, mode = :default)
+    @font.draw_text($questions[@predmet][@q_idx][3], @x_duska, @y_duska + 160, Zlay::TEXT, scale_x = 1, scale_y = 1, color = 0xff_000000, mode = :default)
+
+
 
   end
 end

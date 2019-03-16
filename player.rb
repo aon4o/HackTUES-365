@@ -81,8 +81,3 @@ class Door
     @img.draw_rot(@x, @y, Zlay::DOOR, 0, center_x = 0.5, center_y = 0.5, scale_x = 0.5, scale_y = 0.5)
   end
 end
-
-=begin
-
-
-=end
