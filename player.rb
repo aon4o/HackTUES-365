@@ -4,7 +4,7 @@ class Player
     @x = x
     @y = y
     @i = 0
-    @img = Gosu::Image.new("na_haka_snimki/Red.jpg")
+    @img = Gosu::Image.new("na_haka_snimki/pl_d.png")
     @player_anim
   end
 
@@ -16,25 +16,21 @@ class Player
   def go_up
     @y -= 10
     @i = 1
-    @player_anim = Gosu::Image.load_tiles("na_haka_snimki/pl_ua.png", 76, 62)
   end
 
   def go_down
     @y += 10
     @i = 2
-    @player_anim = Gosu::Image.load_tiles("na_haka_snimki/pl_da.png", 76, 62)
   end
 
   def go_left
     @x -= 10
     @i = 3
-    @player_anim = Gosu::Image.load_tiles("na_haka_snimki/pl_la.png", 76, 62)
   end
 
   def go_right
     @x += 10
     @i = 4
-    @player_anim = Gosu::Image.load_tiles("na_haka_snimki/pl_ra.png", 76, 62)
   end
 
   def still

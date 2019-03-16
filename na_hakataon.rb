@@ -2,6 +2,7 @@ require 'gosu'
 load 'wall.rb'
 load 'player.rb'
 load 'uchilishte.rb'
+load 'questionss.rb'
 
 
 module Zlay
@@ -12,6 +13,8 @@ module Zlay
   DOOR = 4
   DUSKA = 5
   ICONS = 6
+  WHITEBOARD = 7
+  TEXT = 8
   CURSOR = 10
 end
 
@@ -150,7 +153,7 @@ class TheGame < Gosu::Window
       end
 
     when 2 # =================================
-      @background = Gosu::Image.new("na_haka_snimki/black_back.png")
+      @background = Gosu::Image.new("na_haka_snimki/radiatori.png")
 
       @igrach.y = 30 if @igrach.y < 30
 
