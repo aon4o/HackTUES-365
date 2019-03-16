@@ -9,6 +9,7 @@ module Zlay
   WALLS = 1
   UCHITELI = 2
   PLAYER = 3
+  DOOR = 4
   DUSKA = 5
   ICONS = 6
   CURSOR = 10
@@ -25,10 +26,10 @@ class TheGame < Gosu::Window
     @bg_counter = 2
     @cursor = Gosu::Image.new("na_haka_snimki/cursor.png")
 
-    @walls = [Wall.new(0, self.height/2, 0.3, 5),
-      Wall.new(self.width/2, 0, 7, 0.3),
-      Wall.new(self.width, self.height/2, 0.3, 5),
-      Wall.new(self.width/2, self.height, 7, 0.3)]
+    @walls = [Wall.new(0, self.height/2, 0.3, 5),   # left
+      Wall.new(self.width/2, 0, 7, 0.3),            # top
+      Wall.new(self.width, self.height/2, 0.3, 5),  # right
+      Wall.new(self.width/2, self.height, 7, 0.3)]  # bottom
 
     @igrach = Player.new(self.width/2, self.height/2)
 
@@ -40,6 +41,8 @@ class TheGame < Gosu::Window
 
     @milko = Uchitel.new(900, 900, "na_haka_snimki/milko.png")
     @duska_milko = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
+
+    @door_top = Door.new(400, 0)
 
   end
 
@@ -56,6 +59,16 @@ class TheGame < Gosu::Window
 
 
     case @bg_counter
+    when -2  # =================================
+      @background = Gosu::Image.new("na_haka_snimki/lafka.png")
+
+      if @igrach.x > self.width - 30
+        @bg_counter = -1
+        @igrach.x = 30
+      end
+
+      @igrach.y = 30 if @igrach.y < 30
+      @igrach.x = 30 if @igrach.x < 30
     when -1 # =================================
       @background = Gosu::Image.new("na_haka_snimki/yellow_back.png")
 
@@ -69,7 +82,10 @@ class TheGame < Gosu::Window
         @igrach.y = self.height - 50
       end
 
-      @igrach.x = 30 if @igrach.x < 30
+      if @igrach.x < 0
+        @bg_counter = -2
+        @igrach.x = self.width - 30
+      end
 
     when 0 # =================================
       @background = Gosu::Image.new("na_haka_snimki/grey_back.png")
@@ -116,15 +132,14 @@ class TheGame < Gosu::Window
         @bg_counter = 1
         @igrach.x = self.width - 30
       end
-
       @igrach.x = self.width - 30 if @igrach.x > self.width - 30
 
     when 3 # =================================
       @background = Gosu::Image.new("na_haka_snimki/staq.png")
       @igrach.x = 50 if @igrach.x < 50
       @igrach.x = self.width - 50 if @igrach.x > self.width - 50
-      @igrach.y = 40 if @igrach.y < 40
 
+      @igrach.y = 40 if @igrach.y < 40
       if @igrach.y > self.height-30
         @bg_counter = 1
         @igrach.y = 30
@@ -207,7 +222,15 @@ end
   def draw
     @background.draw(0, 0, Zlay::BACKGROUND)
     @cursor.draw(self.mouse_x, self.mouse_y, Zlay::CURSOR)
-    @walls.each{|wall| wall.draw}
+    @walls.each do |wall|
+        @walls[1].draw
+        @walls[3].draw
+        if @bg_counter == -2
+          @walls[0].draw
+        elsif @bg_counter == 2
+          @walls[2].draw
+        end
+    end
     @igrach.draw
 
     @zhana.draw
@@ -218,6 +241,9 @@ end
 
     @milko.draw
     @duska_milko.draw if @duska_milko.drawable
+
+    @door_top.draw if @bg_counter != 2 && @bg_counter != -2 && @bg_counter != 3 && @bg_counter != 4 && @bg_counter != 5
+
   end
 
 end
