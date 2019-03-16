@@ -30,7 +30,7 @@ class TheGame < Gosu::Window
 
     @background
     @bg_counter = 2
-    @cursor = Gosu::Image.new("na_haka_snimki/cursor365.png")
+    @cursor = Gosu::Image.new("na_haka_snimki/cursor365.PNG")
 
     @t_or_f = Gosu::Font.new(15)
 

@@ -61,7 +61,7 @@ class Duska
     @option_c = Btn.new(@x + 450, @y + 350, "В)")
 
     @predmet
-    @q_idx = 0
+    @q_idx = 2
 
   end
 
