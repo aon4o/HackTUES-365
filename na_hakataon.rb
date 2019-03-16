@@ -1,7 +1,11 @@
+
+# 215 - 225 MNOGO VAJNI REDOVE ZA TEMITE NA VAPROSITE V STAITE
+
 require 'gosu'
 load 'wall.rb'
 load 'player.rb'
 load 'uchilishte.rb'
+load 'questionss.rb'
 
 
 module Zlay
@@ -12,6 +16,8 @@ module Zlay
   DOOR = 4
   DUSKA = 5
   ICONS = 6
+  WHITEBOARD = 7
+  TEXT = 8
   CURSOR = 10
 end
 
@@ -24,7 +30,9 @@ class TheGame < Gosu::Window
 
     @background
     @bg_counter = 2
-    @cursor = Gosu::Image.new("na_haka_snimki/cursor.png")
+    @cursor = Gosu::Image.new("na_haka_snimki/cursor365.png")
+
+    @t_or_f = Gosu::Font.new(15)
 
     @walls = [Wall.new(0, self.height/2, 0.3, 5),   # left
       Wall.new(self.width/2, 0, 7, 0.3),            # top
@@ -43,17 +51,34 @@ class TheGame < Gosu::Window
     @duska_milko = Duska.new(45, 30, "na_haka_snimki/chovek_prostitutka_smalll.png")
 
     @door_top = Door.new(500, 0)
+    @door1 = true
+    @door2 = false
+    @door3 = false
+
 
   end
 
 
   def update
-    @igrach.go_left if Gosu.button_down? Gosu::KB_A
-    @igrach.go_right if Gosu.button_down? Gosu::KB_D
-    @igrach.go_down if Gosu.button_down? Gosu::KB_S
-    @igrach.go_up if Gosu.button_down? Gosu::KB_W
+    if Gosu.button_down? Gosu::KB_W
+      @igrach.go_up
+    end
 
+    if Gosu.button_down? Gosu::KB_A
+      @igrach.go_left
+    end
 
+    if Gosu.button_down? Gosu::KB_S
+      @igrach.go_down
+    end
+
+    if Gosu.button_down? Gosu::KB_D
+      @igrach.go_right
+    end
+
+    unless (Gosu.button_down? Gosu::KB_W) || (Gosu.button_down? Gosu::KB_A) || (Gosu.button_down? Gosu::KB_S) || (Gosu.button_down? Gosu::KB_D)
+      @igrach.still
+    end
 
     @igrach.y = self.height - 30 if @igrach.y > self.height - 30 && @bg_counter != 3 && @bg_counter != 4 && @bg_counter != 5
 
@@ -78,8 +103,8 @@ class TheGame < Gosu::Window
       end
 
       if @igrach.y < 30
-        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40
-          @bg_counter = 3
+        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40 && @door3 # ZAKLUCHENA
+          @bg_counter = 5
           @igrach.y = self.height - 30
         else
           @igrach.y = 30
@@ -92,7 +117,7 @@ class TheGame < Gosu::Window
       end
 
     when 0 # =================================
-      @background = Gosu::Image.new("na_haka_snimki/grey_back.png")
+      @background = Gosu::Image.new("na_haka_snimki/koridorsdivan.png")
 
       if @igrach.x > self.width
         @bg_counter = 1
@@ -105,7 +130,7 @@ class TheGame < Gosu::Window
       end
 
       if @igrach.y < 30
-        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40
+        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40 && @door2 # ZAKLUCHENA
           @bg_counter = 4
           @igrach.y = self.height - 30
         else
@@ -114,10 +139,10 @@ class TheGame < Gosu::Window
       end
 
     when 1 # =================================
-      @background = Gosu::Image.new("na_haka_snimki/red_back.png")
+      @background = Gosu::Image.new("na_haka_snimki/koridor.png")
 
       if @igrach.y < 30
-        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40
+        if Gosu.distance(@igrach.x, @igrach.y, @door_top.x, @door_top.y) < 40 && @door1 # OTKLUCHENA
           @bg_counter = 3
           @igrach.y = self.height - 30
         else
@@ -136,7 +161,7 @@ class TheGame < Gosu::Window
       end
 
     when 2 # =================================
-      @background = Gosu::Image.new("na_haka_snimki/black_back.png")
+      @background = Gosu::Image.new("na_haka_snimki/radiatori.png")
 
       @igrach.y = 30 if @igrach.y < 30
 
@@ -153,43 +178,57 @@ class TheGame < Gosu::Window
 
       @igrach.y = 40 if @igrach.y < 40
       if @igrach.y > self.height-30
-        @bg_counter = 1
-        @igrach.y = 30
+        if Gosu.distance(@igrach.x, @igrach.y, 500, self.height) < 40
+          @bg_counter = 1
+          @igrach.y = 30
+        else
+          @igrach.y = self.height - 30
+        end
       end
 
     when 4 # =================================
       @background = Gosu::Image.new("na_haka_snimki/staq.png")
       @igrach.x = 50 if @igrach.x < 50
       @igrach.x = self.width - 50 if @igrach.x > self.width - 50
-      @igrach.y = 40 if @igrach.y < 40
 
+      @igrach.y = 40 if @igrach.y < 40
       if @igrach.y > self.height-30
-        @bg_counter = 0
-        @igrach.y = 30
+        if Gosu.distance(@igrach.x, @igrach.y, 500, self.height) < 40
+          @bg_counter = 1
+          @igrach.y = 30
+        else
+          @igrach.y = self.height - 30
+        end
       end
 
     when 5 # =================================
       @background = Gosu::Image.new("na_haka_snimki/staq.png")
       @igrach.x = 50 if @igrach.x < 50
       @igrach.x = self.width - 50 if @igrach.x > self.width - 50
+
       @igrach.y = 40 if @igrach.y < 40
-
       if @igrach.y > self.height-30
-        @bg_counter = -1
-        @igrach.y = 30
+        if Gosu.distance(@igrach.x, @igrach.y, 500, self.height) < 40
+          @bg_counter = -1
+          @igrach.y = 30
+        else
+          @igrach.y = self.height - 30
+        end
       end
-
     end
 
 
     @bg_counter == 3 ? @zhana.goto(500, 130) : @zhana.goto(900, 900)
     Gosu.distance(@igrach.x, @igrach.y, @zhana.x, @zhana.y) < 75 ? @duska_zhana.drawable = true : @duska_zhana.drawable = false
+    @duska_zhana.predmet = 0
 
     @bg_counter == 4 ? @kurshakova.goto(500, 130) : @kurshakova.goto(900, 900)
     Gosu.distance(@igrach.x, @igrach.y, @kurshakova.x, @kurshakova.y) < 75 ? @duska_kurshakova.drawable = true : @duska_kurshakova.drawable = false
+    @duska_kurshakova.predmet = 1
 
     @bg_counter == 5 ? @milko.goto(500, 130) : @milko.goto(900, 900)
     Gosu.distance(@igrach.x, @igrach.y, @milko.x, @milko.y) < 75 ? @duska_milko.drawable = true : @duska_milko.drawable = false
+    @duska_milko.predmet = 2
 
     if @duska_zhana.drawable && button_down?(Gosu::MsLeft)
       if Gosu.distance(@duska_zhana.option_a.x, @duska_zhana.option_a.y, self.mouse_x, self.mouse_y) < 30
@@ -200,6 +239,7 @@ class TheGame < Gosu::Window
       end
       if Gosu.distance(@duska_zhana.option_c.x, @duska_zhana.option_c.y, self.mouse_x, self.mouse_y) < 30
         puts "TRUE"
+        @door2 = true
       end
     end
 
@@ -210,6 +250,7 @@ class TheGame < Gosu::Window
       end
       if Gosu.distance(@duska_kurshakova.option_b.x, @duska_kurshakova.option_b.y, self.mouse_x, self.mouse_y) < 30
         puts "TRUE"
+        @door3 = true
       end
       if Gosu.distance(@duska_kurshakova.option_c.x, @duska_kurshakova.option_c.y, self.mouse_x, self.mouse_y) < 30
         puts "FALSE"
